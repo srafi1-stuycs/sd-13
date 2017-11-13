@@ -6,7 +6,13 @@
     <center>
       <h1>{{ pokemon.name }}</h1>
       <div>
-        <img src="{{ pokemon.sprites.front_default }}" alt="Missingno?" />
+        <img src="{{ pokemon.sprites.front_default }}" alt="Missingno?" width="300px"/>
+      </div>
+      <div>
+        <form action="/" method="get">
+          <input type="text" name="dexnum" placeholder="Pokedex number" />
+          <input type="submit" />
+        </form>
       </div>
     </center>
   </body>
