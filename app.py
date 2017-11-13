@@ -3,21 +3,25 @@
 # HW13 -- A RESTful journey skyward
 # 2017-11-09
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import urllib2, json
 
-key = 'B0GjYlBz3NFCm3urthnt8Ae2ulnBO2V1mfURha2H'
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
-    url ='https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=%s' 
-    resp = urllib2.urlopen(url % key)
+    url = 'http://pokeapi.co/api/v2/pokemon/1' 
+    header = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+            'Accept-Encoding': 'none',
+            'Accept-Language': 'en-US,en;q=0.8',
+            'Connection': 'keep-alive'}
+    req = urllib2.Request(url, headers=header)
+    resp = urllib2.urlopen(req)
     data = resp.read()
-    data_list = json.loads(data)
-    data_list = data_list['photos'][:50]
-    print data_list[0]
-    return render_template('index.html', photos=data_list)
+    data_dict = json.loads(data)
+    return render_template('index.html', pokemon=data_dict)
 
 if __name__ == '__main__':
     app.run(debug=True)
